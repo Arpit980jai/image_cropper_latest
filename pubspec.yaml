@@ -1,0 +1,41 @@
+name: image_cropper_latest
+description: "A modern, lightweight, and highly customizable image cropping package for Flutter. Provides gesture-based controls, aspect ratio locking, rotation, and high-quality output for Android and iOS."
+version: 0.0.1
+homepage: https://github.com/Arpit980jai/image_cropper_latest
+repository: https://github.com/Arpit980jai/image_cropper_latest
+
+environment:
+  sdk: ^3.10.4
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  web: ^1.0.0
+  plugin_platform_interface: ^2.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.arpitjai.flutter_image_cropper
+        pluginClass: FlutterImageCropperPlugin
+      ios:
+        pluginClass: FlutterImageCropperPlugin
+      linux:
+        pluginClass: FlutterImageCropperPlugin
+      macos:
+        pluginClass: FlutterImageCropperPlugin
+      windows:
+        pluginClass: FlutterImageCropperPluginCApi
+      web:
+        pluginClass: FlutterImageCropperWeb
+        fileName: flutter_image_cropper_web.dart
