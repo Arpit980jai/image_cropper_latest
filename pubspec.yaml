@@ -1,6 +1,6 @@
 name: image_cropper_latest
 description: "A modern, lightweight, and highly customizable image cropping package for Flutter. Provides gesture-based controls, aspect ratio locking, rotation, and high-quality output for Android and iOS."
-version: 0.0.1
+version: 0.0.3
 homepage: https://github.com/Arpit980jai/image_cropper_latest
 repository: https://github.com/Arpit980jai/image_cropper_latest
 
