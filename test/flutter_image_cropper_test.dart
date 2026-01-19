@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_image_cropper/flutter_image_cropper.dart';
-import 'package:flutter_image_cropper/flutter_image_cropper_platform_interface.dart';
-import 'package:flutter_image_cropper/flutter_image_cropper_method_channel.dart';
+import 'package:image_cropper_latest/flutter_image_cropper.dart';
+import 'package:image_cropper_latest/flutter_image_cropper_platform_interface.dart';
+import 'package:image_cropper_latest/flutter_image_cropper_method_channel.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockFlutterImageCropperPlatform

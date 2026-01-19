@@ -4,23 +4,27 @@
 // ignore: avoid_web_libraries_in_flutter
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:web/web.dart' as web;
 
 import 'flutter_image_cropper_platform_interface.dart';
 
-/// A web implementation of the FlutterImageCropperPlatform of the FlutterImageCropper plugin.
+/// A web implementation of the image_cropper_latest plugin.
 class FlutterImageCropperWeb extends FlutterImageCropperPlatform {
-  /// Constructs a FlutterImageCropperWeb
+  /// Constructs a FlutterImageCropperWeb.
   FlutterImageCropperWeb();
 
   static void registerWith(Registrar registrar) {
     FlutterImageCropperPlatform.instance = FlutterImageCropperWeb();
   }
 
-  /// Returns a [String] containing the version of the platform.
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = web.window.navigator.userAgent;
-    return version;
+  Future<String?> cropImage({
+    required String sourcePath,
+    double? aspectRatioX,
+    double? aspectRatioY,
+    List<CropAspectRatioPreset>? aspectRatioPresets,
+    int quality = 90,
+  }) async {
+    // We are not implementing the web platform, so we throw an error.
+    throw UnimplementedError('cropImage() has not been implemented on the web.');
   }
 }
