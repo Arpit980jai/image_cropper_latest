@@ -1,3 +1,4 @@
+
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'flutter_image_cropper_method_channel.dart';
@@ -9,6 +10,18 @@ enum CropAspectRatioPreset {
   ratio4x3,
   ratio9x16,
   ratio16x9
+}
+
+/// Defines the shape of the cropping frame.
+enum CropShape {
+  /// A rectangular crop frame.
+  rectangle,
+
+  /// A circular crop frame.
+  circle,
+
+  /// An oval crop frame.
+  oval,
 }
 
 abstract class FlutterImageCropperPlatform extends PlatformInterface {
@@ -38,6 +51,7 @@ abstract class FlutterImageCropperPlatform extends PlatformInterface {
     double? aspectRatioY,
     List<CropAspectRatioPreset>? aspectRatioPresets,
     int quality = 90,
+    CropShape cropShape = CropShape.rectangle,
   }) {
     throw UnimplementedError('cropImage() has not been implemented.');
   }

@@ -1,7 +1,9 @@
+
 package com.arpitjai.flutter_image_cropper
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.model.AspectRatio
@@ -24,7 +26,7 @@ class FlutterImageCropperPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
 
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "flutter_image_cropper")
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "image_cropper_latest")
         channel.setMethodCallHandler(this)
     }
 
@@ -36,19 +38,41 @@ class FlutterImageCropperPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
             val aspectRatioY = call.argument<Double>("aspect_ratio_y")
             val aspectRatioPresets = call.argument<List<String>>("aspect_ratio_presets")
             val quality = call.argument<Int>("quality")
+            val cropShape = call.argument<String>("crop_shape")
 
             val sourceUri = Uri.fromFile(File(sourcePath))
-            val destinationFileName = "${System.currentTimeMillis()}.jpg"
+            val fileExtension = if (cropShape == "circle" || cropShape == "oval") ".png" else ".jpg"
+            val destinationFileName = "${System.currentTimeMillis()}$fileExtension"
             val destinationUri = Uri.fromFile(File(activity?.cacheDir, destinationFileName))
 
             val uCrop = UCrop.of(sourceUri, destinationUri)
+            val options = UCrop.Options()
 
-            if (aspectRatioX != null && aspectRatioY != null) {
-                uCrop.withAspectRatio(aspectRatioX.toFloat(), aspectRatioY.toFloat())
+            when (cropShape) {
+                "circle" -> {
+                    options.setCircleDimmedLayer(true)
+                    uCrop.withAspectRatio(1f, 1f)
+                }
+                "oval" -> {
+                    // uCrop does not support a free-form oval shape directly.
+                    // We treat 'oval' as 'circle' here, as it's the closest visual representation.
+                    options.setCircleDimmedLayer(true)
+                    uCrop.withAspectRatio(1f, 1f) 
+                }
+                else -> { // rectangle
+                    options.setCircleDimmedLayer(false)
+                    if (aspectRatioX != null && aspectRatioY != null) {
+                        uCrop.withAspectRatio(aspectRatioX.toFloat(), aspectRatioY.toFloat())
+                    }
+                }
             }
 
-            val options = UCrop.Options()
-            options.setCompressionQuality(quality ?: 90)
+            if (cropShape == "circle" || cropShape == "oval") {
+                options.setCompressionFormat(Bitmap.CompressFormat.PNG)
+            } else {
+                options.setCompressionFormat(Bitmap.CompressFormat.JPEG)
+                options.setCompressionQuality(quality ?: 90)
+            }
 
             if (aspectRatioPresets != null) {
                 val aspectRatios = mutableListOf<AspectRatio>()
@@ -62,11 +86,10 @@ class FlutterImageCropperPlugin : FlutterPlugin, MethodCallHandler, ActivityAwar
                         "ratio16x9" -> aspectRatios.add(AspectRatio("16:9", 16f, 9f))
                     }
                 }
-                options.setAspectRatioOptions(aspectRatios.size -1, *aspectRatios.toTypedArray())
+                options.setAspectRatioOptions(aspectRatios.size - 1, *aspectRatios.toTypedArray())
             }
 
             uCrop.withOptions(options)
-
             activity?.let { uCrop.start(it, CROP_IMAGE_REQUEST_CODE) }
 
         } else {

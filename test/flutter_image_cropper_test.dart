@@ -15,6 +15,7 @@ class MockFlutterImageCropperPlatform
     double? aspectRatioY,
     List<CropAspectRatioPreset>? aspectRatioPresets,
     int quality = 90,
+    CropShape cropShape = CropShape.rectangle,
   }) {
     return Future.value('mock_cropped_path');
   }

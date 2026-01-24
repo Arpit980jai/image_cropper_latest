@@ -1,3 +1,4 @@
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
@@ -7,7 +8,7 @@ import 'flutter_image_cropper_platform_interface.dart';
 class MethodChannelFlutterImageCropper extends FlutterImageCropperPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
-  final methodChannel = const MethodChannel('flutter_image_cropper');
+  final methodChannel = const MethodChannel('image_cropper_latest');
 
   @override
   Future<String?> cropImage({
@@ -16,6 +17,7 @@ class MethodChannelFlutterImageCropper extends FlutterImageCropperPlatform {
     double? aspectRatioY,
     List<CropAspectRatioPreset>? aspectRatioPresets,
     int quality = 90,
+    CropShape cropShape = CropShape.rectangle,
   }) async {
     final Map<String, dynamic> arguments = {
       'source_path': sourcePath,
@@ -23,6 +25,7 @@ class MethodChannelFlutterImageCropper extends FlutterImageCropperPlatform {
       'aspect_ratio_y': aspectRatioY,
       'aspect_ratio_presets': aspectRatioPresets?.map((preset) => preset.toString().split('.').last).toList(),
       'quality': quality,
+      'crop_shape': cropShape.toString().split('.').last,
     };
     final String? result = await methodChannel.invokeMethod('cropImage', arguments);
     return result;

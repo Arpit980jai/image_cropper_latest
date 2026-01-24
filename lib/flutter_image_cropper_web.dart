@@ -23,6 +23,7 @@ class FlutterImageCropperWeb extends FlutterImageCropperPlatform {
     double? aspectRatioY,
     List<CropAspectRatioPreset>? aspectRatioPresets,
     int quality = 90,
+    CropShape cropShape = CropShape.rectangle,
   }) async {
     // We are not implementing the web platform, so we throw an error.
     throw UnimplementedError('cropImage() has not been implemented on the web.');
